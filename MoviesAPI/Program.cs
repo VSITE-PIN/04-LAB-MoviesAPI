@@ -1,4 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using MoviesAPI.Data;
+using MoviesAPI.Services;
+using System;
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<MovieDbContext>(options =>
+
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnString")
+    ?? throw new InvalidOperationException("Connection string DefaultConnString not found.")));
+
+// moviesService dep. injection
+builder.Services.AddScoped<MoviesService>();
 
 // Add services to the container.
 
