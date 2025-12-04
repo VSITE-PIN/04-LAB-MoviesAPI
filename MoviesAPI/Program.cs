@@ -1,11 +1,23 @@
+﻿using Microsoft.EntityFrameworkCore;
+using MoviesAPI.Data;
+using MoviesAPI.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// ➜ Registracija AppDbContext-a
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnString")
+    )
+);
+
+// ➜ OVO JE NAJBITNIJE – registracija MoviesService
+builder.Services.AddScoped<MoviesService>();
 
 var app = builder.Build();
 
